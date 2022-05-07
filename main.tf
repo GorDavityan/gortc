@@ -27,7 +27,7 @@ resource "aws_subnet" "PUBLIC-SUBNET-1a" {
   map_public_ip_on_launch = true
 
   tags = {
-      Name = "Trazler PUBLIC-SUBNET-1a"
+      Name = "Trazler PUBLIC SUBNET 1a"
   }
 }
 
@@ -40,7 +40,7 @@ resource "aws_subnet" "PUBLIC-SUBNET-1b" {
   map_public_ip_on_launch = true
   
   tags = {
-      Name = "Trazler PUBLIC-SUBNET-1b"
+      Name = "Trazler PUBLIC SUBNET 1b"
   }
 }
 
@@ -53,7 +53,7 @@ resource "aws_subnet" "PUBLIC-SUBNET-1c" {
   map_public_ip_on_launch = true
   
   tags = {
-      Name = "Trazler PUBLIC-SUBNET-1c"
+      Name = "Trazler PUBLIC SUBNET 1c"
   }
 }
 
@@ -92,5 +92,45 @@ resource "aws_route_table_association" "PUBLIC-SUBNET-1a-ROUTE-TABLE-ASSOCIATION
   subnet_id = aws_subnet.PUBLIC-SUBNET-1c.id
   route_table_id = aws_route_table.PUBLIC-ROUTE-TABLE.id
 }
+
+#********************************************************#
+
+resource "aws_subnet" "PRIVATE-SUBNET-1a" {
+  vpc_id = aws_vpc.VPC.id
+  cidr_block = var.PRIVATE-SUBNET-1a-cidr-block
+  availability_zone = "eu-central-1a"
+  
+
+  tags = {
+      Name = "Trazler PRIVATE SUBNET 1a"
+  }
+}
+
+#********************************************************#
+
+resource "aws_subnet" "PRIVATE-SUBNET-1b" {
+  vpc_id = aws_vpc.VPC.id
+  cidr_block = var.PRIVATE-SUBNET-1b-cidr-block
+  availability_zone = "eu-central-1b"
+  
+  
+  tags = {
+      Name = "Trazler PRIVATE SUBNET 1b"
+  }
+}
+
+#********************************************************#
+
+resource "aws_subnet" "PRIVATE-SUBNET-1c" {
+  vpc_id = aws_vpc.VPC.id
+  cidr_block = var.PRIVATE-SUBNET-1c-cidr-block
+  availability_zone = "eu-central-1c"
+  
+  
+  tags = {
+      Name = "Trazler PRIVATE SUBNET 1c"
+  }
+}
+
 
 

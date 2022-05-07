@@ -27,3 +27,26 @@ variable "PUBLIC-SUBNET-1c-cidr-block" {
   description = "PUBLIC SUBNET cidr block in AZ 1c"
   type = string
 }
+
+
+variable "PRIVATE-SUBNET-1a-cidr-block" {
+  default = "10.0.10.0/24"
+  description = "PRIVATE SUBNET cidr block in AZ 1a"
+  type = string
+}
+
+#********************************************************#
+
+variable "PRIVATE-SUBNET-1b-cidr-block" {
+  default = "10.0.11.0/24"
+  description = "PRIVATE SUBNET cidr block in AZ 1b"
+  type = string
+}
+
+#********************************************************#
+
+variable "PRIVATE-SUBNET-1c-cidr-block" {
+  default = "10.0.12.0/24"
+  description = "PRIVATE SUBNET cidr block in AZ 1c"
+  type = string
+}

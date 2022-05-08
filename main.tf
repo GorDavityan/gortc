@@ -1,265 +1,265 @@
-resource "aws_vpc" "VPC" {
- instance_tenancy     = "default"
- enable_dns_hostnames = true
-  cidr_block          = var.vpc-cidr
-
-  tags                = {
-      Name                = "Trazler VPC"
-  }
-}
-
-#********************************************************#
-
-resource "aws_internet_gateway" "IGW" {
-  vpc_id = aws_vpc.VPC.id
+resource "aws_vpc" "vpc" {
+  instance_tenancy     = "default"
+  enable_dns_hostnames = true
+  cidr_block           = var.vpc-cidr
 
   tags = {
-      Name = "Trazler IGW"
+    Name = "Trazler vpc"
   }
 }
 
 #********************************************************#
 
-resource "aws_subnet" "PUBLIC-SUBNET-1a" {
-  vpc_id = aws_vpc.VPC.id
-  cidr_block = var.PUBLIC-SUBNET-1a-cidr-block
-  availability_zone = "eu-central-1a"
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = "Trazler igw"
+  }
+}
+
+#********************************************************#
+
+resource "aws_subnet" "public-subnet-1a" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.public-subnet-1a-cidr-block
+  availability_zone       = var.az1a
   map_public_ip_on_launch = true
 
   tags = {
-      Name = "Trazler PUBLIC SUBNET 1a"
+    Name = "Trazler public subnet 1a"
   }
 }
 
 #********************************************************#
 
-resource "aws_subnet" "PUBLIC-SUBNET-1b" {
-  vpc_id = aws_vpc.VPC.id
-  cidr_block = var.PUBLIC-SUBNET-1b-cidr-block
-  availability_zone = "eu-central-1b"
+resource "aws_subnet" "public-subnet-1b" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.public-subnet-1b-cidr-block
+  availability_zone       = var.az1b
   map_public_ip_on_launch = true
-  
+
   tags = {
-      Name = "Trazler PUBLIC SUBNET 1b"
+    Name = "Trazler public subnet 1b"
   }
 }
 
 #********************************************************#
 
-resource "aws_subnet" "PUBLIC-SUBNET-1c" {
-  vpc_id = aws_vpc.VPC.id
-  cidr_block = var.PUBLIC-SUBNET-1c-cidr-block
-  availability_zone = "eu-central-1c"
+resource "aws_subnet" "public-subnet-1c" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.public-subnet-1c-cidr-block
+  availability_zone       = var.az1c
   map_public_ip_on_launch = true
-  
+
   tags = {
-      Name = "Trazler PUBLIC SUBNET 1c"
+    Name = "Trazler public subnet 1c"
   }
 }
 
 #********************************************************#
 
-resource "aws_route_table" "PUBLIC-ROUTE-TABLE" {
-   vpc_id = aws_vpc.VPC.id
+resource "aws_route_table" "public-route-table" {
+  vpc_id = aws_vpc.vpc.id
 
-   route = {
-     cidr_block = "0.0.0.0/0"
-     gateway_id = aws_internet_gateway.IGW.id
-     } 
+  route = {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
 
-    tags = {
-        Name = "Trazler PUBLIC ROUTE TABLE"
-    }  
- }
- 
-#********************************************************#
-
-resource "aws_route_table_association" "PUBLIC-SUBNET-1a-ROUTE-TABLE-ASSOCIATION" {
-  subnet_id = aws_subnet.PUBLIC-SUBNET-1a.id
-  route_table_id = aws_route_table.PUBLIC-ROUTE-TABLE.id
-}
-
-#********************************************************#
-
-resource "aws_route_table_association" "PUBLIC-SUBNET-1b-ROUTE-TABLE-ASSOCIATION" {
-  subnet_id = aws_subnet.PUBLIC-SUBNET-1b.id
-  route_table_id = aws_route_table.PUBLIC-ROUTE-TABLE.id
-}
-
-#********************************************************#
-
-resource "aws_route_table_association" "PUBLIC-SUBNET-1c-ROUTE-TABLE-ASSOCIATION" {
-  subnet_id = aws_subnet.PUBLIC-SUBNET-1c.id
-  route_table_id = aws_route_table.PUBLIC-ROUTE-TABLE.id
-}
-
-#********************************************************#
-
-resource "aws_subnet" "PRIVATE-SUBNET-1a" {
-  vpc_id = aws_vpc.VPC.id
-  cidr_block = var.PRIVATE-SUBNET-1a-cidr-block
-  availability_zone = "eu-central-1a"
-  
   tags = {
-      Name = "Trazler PRIVATE SUBNET 1a"
+    Name = "Trazler public route table"
   }
 }
 
 #********************************************************#
 
-resource "aws_subnet" "PRIVATE-SUBNET-1b" {
-  vpc_id = aws_vpc.VPC.id
-  cidr_block = var.PRIVATE-SUBNET-1b-cidr-block
-  availability_zone = "eu-central-1b"
-  
+resource "aws_route_table_association" "public-subnet-1a-route-table-association" {
+  subnet_id      = aws_subnet.public-subnet-1a.id
+  route_table_id = aws_route_table.public-route-table.id
+}
+
+#********************************************************#
+
+resource "aws_route_table_association" "public-subnet-1b-route-table-association" {
+  subnet_id      = aws_subnet.public-subnet-1b.id
+  route_table_id = aws_route_table.public-route-table.id
+}
+
+#********************************************************#
+
+resource "aws_route_table_association" "public-subnet-1c-route-table-association" {
+  subnet_id      = aws_subnet.public-subnet-1c.id
+  route_table_id = aws_route_table.public-route-table.id
+}
+
+#********************************************************#
+
+resource "aws_subnet" "private-subnet-1a" {
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.private-subnet-1a-cidr-block
+  availability_zone = var.az1a
+
   tags = {
-      Name = "Trazler PRIVATE SUBNET 1b"
+    Name = "Trazler private subnet 1a"
   }
 }
 
 #********************************************************#
 
-resource "aws_subnet" "PRIVATE-SUBNET-1c" {
-  vpc_id = aws_vpc.VPC.id
-  cidr_block = var.PRIVATE-SUBNET-1c-cidr-block
-  availability_zone = "eu-central-1c"
-  
+resource "aws_subnet" "private-subnet-1b" {
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.private-subnet-1b-cidr-block
+  availability_zone = var.az1b
+
   tags = {
-      Name = "Trazler PRIVATE SUBNET 1c"
+    Name = "Trazler private subnet 1b"
   }
 }
 
 #********************************************************#
 
-resource "aws_eip" "NAT-EIP-1a" {
-  vpc = true
-  depends_on = [aws_internet_gateway.IGW]
+resource "aws_subnet" "private-subnet-1c" {
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.private-subnet-1c-cidr-block
+  availability_zone = var.az1c
 
   tags = {
-    Name = "Trazler NAT EIP 1a"
+    Name = "Trazler private subnet 1c"
   }
 }
 
 #********************************************************#
 
-resource "aws_eip" "NAT-EIP-1b" {
-  vpc = true
-  depends_on = [aws_internet_gateway.IGW]
+resource "aws_eip" "nat-eip-1a" {
+  vpc        = true
+  depends_on = [aws_internet_gateway.igw]
 
   tags = {
-    Name = "Trazler NAT EIP 1b"
+    Name = "Trazler nat eip 1a"
   }
 }
 
 #********************************************************#
 
-resource "aws_eip" "NAT-EIP-1c" {
-  vpc = true
-  depends_on = [aws_internet_gateway.IGW]
+resource "aws_eip" "nat-eip-1b" {
+  vpc        = true
+  depends_on = [aws_internet_gateway.igw]
 
   tags = {
-    Name = "Trazler NAT EIP 1c"
+    Name = "Trazler nat eip 1b"
   }
 }
 
 #********************************************************#
 
-resource "aws_nat_gateway" "NAT-SUBNET-1a" {
-    allocation_id = aws_eip.NAT-EIP-1a
-    subnet_id = aws_subnet.PUBLIC-SUBNET-1a.id
-    depends_on = [aws_internet_gateway.IGW]
+resource "aws_eip" "nat-eip-1c" {
+  vpc        = true
+  depends_on = [aws_internet_gateway.igw]
 
   tags = {
-    Name = "Trazler NAT on Public Subnet 1a"
+    Name = "Trazler nat eip 1c"
   }
 }
 
 #********************************************************#
 
-resource "aws_nat_gateway" "NAT-SUBNET-1b" {
-    allocation_id = aws_eip.NAT-EIP-1b
-    subnet_id = aws_subnet.PUBLIC-SUBNET-1b.id
-    depends_on = [aws_internet_gateway.IGW]
+resource "aws_nat_gateway" "nat-subnet-1a" {
+  allocation_id = aws_eip.nat-eip-1a
+  subnet_id     = aws_subnet.public-subnet-1a.id
+  depends_on    = [aws_internet_gateway.igw]
 
   tags = {
-    Name = "Trazler NAT on Public Subnet 1b"
+    Name = "Trazler nat on public subnet 1a"
   }
 }
 
 #********************************************************#
 
-resource "aws_nat_gateway" "NAT-SUBNET-1c" {
-    allocation_id = aws_eip.NAT-EIP-1c
-    subnet_id = aws_subnet.PUBLIC-SUBNET-1c.id
-    depends_on = [aws_internet_gateway.IGW]
+resource "aws_nat_gateway" "nat-subnet-1b" {
+  allocation_id = aws_eip.nat-eip-1b
+  subnet_id     = aws_subnet.public-subnet-1b.id
+  depends_on    = [aws_internet_gateway.igw]
 
   tags = {
-    Name = "Trazler NAT on Public Subnet 1c"
+    Name = "Trazler nat on public subnet 1b"
   }
 }
 
 #********************************************************#
 
-resource "aws_route_table" "PRIVATE-ROUTE-TABLE-1a" {
-   vpc_id = aws_vpc.VPC.id
+resource "aws_nat_gateway" "nat-subnet-1c" {
+  allocation_id = aws_eip.nat-eip-1c
+  subnet_id     = aws_subnet.public-subnet-1c.id
+  depends_on    = [aws_internet_gateway.igw]
 
-   route = {
-     cidr_block = var.PRIVATE-SUBNET-1a-cidr-block
-     nat_gateway_id = aws_nat_gateway.NAT-SUBNET-1a.id
-     } 
-
-    tags = {
-        Name = "Trazler PRIVATE ROUTE TABLE 1a"
-    }  
- }
-
-#********************************************************#
-
-resource "aws_route_table" "PRIVATE-ROUTE-TABLE-1b" {
-   vpc_id = aws_vpc.VPC.id
-
-   route = {
-     cidr_block = var.PRIVATE-SUBNET-1b-cidr-block
-     nat_gateway_id = aws_nat_gateway.NAT-SUBNET-1b.id
-     } 
-
-    tags = {
-        Name = "Trazler PRIVATE ROUTE TABLE 1b"
-    }  
- }
-
-#********************************************************#
-
- resource "aws_route_table" "PRIVATE-ROUTE-TABLE-1c" {
-   vpc_id = aws_vpc.VPC.id
-
-   route = {
-     cidr_block = var.PRIVATE-SUBNET-1c-cidr-block
-     nat_gateway_id = aws_nat_gateway.NAT-SUBNET-1c.id
-     } 
-
-    tags = {
-        Name = "Trazler PRIVATE ROUTE TABLE 1c"
-    }  
- }
-
-#********************************************************#
-
-resource "aws_route_table_association" "PRIVATE-SUBNET-1a-ROUTE-TABLE-ASSOCIATION" {
-  subnet_id = aws_subnet.PRIVATE-SUBNET-1a.id
-  route_table_id = aws_route_table.PUBLIC-ROUTE-TABLE.id
+  tags = {
+    Name = "Trazler nat on public subnet 1c"
+  }
 }
 
 #********************************************************#
 
-resource "aws_route_table_association" "PRIVATE-SUBNET-1b-ROUTE-TABLE-ASSOCIATION" {
-  subnet_id = aws_subnet.PRIVATE-SUBNET-1b.id
-  route_table_id = aws_route_table.PUBLIC-ROUTE-TABLE.id
+resource "aws_route_table" "private-route-table-1a" {
+  vpc_id = aws_vpc.vpc.id
+
+  route = {
+    cidr_block     = var.private-subnet-1a-cidr-block
+    nat_gateway_id = aws_nat_gateway.nat-subnet-1a.id
+  }
+
+  tags = {
+    Name = "Trazler private route table 1a"
+  }
 }
 
 #********************************************************#
 
-resource "aws_route_table_association" "PRIVATE-SUBNET-1c-ROUTE-TABLE-ASSOCIATION" {
-  subnet_id = aws_subnet.PRIVATE-SUBNET-1c.id
-  route_table_id = aws_route_table.PUBLIC-ROUTE-TABLE.id
+resource "aws_route_table" "private-route-table-1b" {
+  vpc_id = aws_vpc.vpc.id
+
+  route = {
+    cidr_block     = var.private-subnet-1b-cidr-block
+    nat_gateway_id = aws_nat_gateway.nat-subnet-1b.id
+  }
+
+  tags = {
+    Name = "Trazler private route table 1b"
+  }
+}
+
+#********************************************************#
+
+resource "aws_route_table" "private-route-table-1c" {
+  vpc_id = aws_vpc.vpc.id
+
+  route = {
+    cidr_block     = var.private-subnet-1c-cidr-block
+    nat_gateway_id = aws_nat_gateway.nat-subnet-1c.id
+  }
+
+  tags = {
+    Name = "Trazler private route table 1c"
+  }
+}
+
+#********************************************************#
+
+resource "aws_route_table_association" "private-subnet-1a-route-table-association" {
+  subnet_id      = aws_subnet.private-subnet-1a.id
+  route_table_id = aws_route_table.public-route-table.id
+}
+
+#********************************************************#
+
+resource "aws_route_table_association" "private-subnet-1b-route-table-association" {
+  subnet_id      = aws_subnet.private-subnet-1b.id
+  route_table_id = aws_route_table.public-route-table.id
+}
+
+#********************************************************#
+
+resource "aws_route_table_association" "private-subnet-1c-route-table-association" {
+  subnet_id      = aws_subnet.private-subnet-1c.id
+  route_table_id = aws_route_table.public-route-table.id
 }
